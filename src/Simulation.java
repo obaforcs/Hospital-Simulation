@@ -42,6 +42,8 @@ public class Simulation {
 
     public void run() {
         for (int time = 0; time < simulationMinutes; time++) {
+            hospital.updateAlerts(time);
+
             if (time % 10 == 0) {
                 System.out.println("Simulation time: " + time);
             }

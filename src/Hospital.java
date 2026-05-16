@@ -14,6 +14,12 @@ public class Hospital {
         }
     }
 
+    public void updateAlerts(int time) {
+        for (int i = 0; i < patientCount; i++) {
+            patients[i].generateAlerts(time);
+        }
+    }
+
     public Patient getPatient(int index) {
         if (index < 0 || index >= patientCount) {
             return null;
