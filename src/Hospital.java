@@ -7,6 +7,7 @@ public class Hospital {
 
     private AlertQueue urgentAlerts;
     private AlertQueue routineAlerts;
+    private AlertQueue completedAlerts;
 
     public Hospital(int maxPatients, int maxNurses) {
         patients = new Patient[maxPatients];
@@ -17,6 +18,11 @@ public class Hospital {
 
         urgentAlerts = new AlertQueue(1000);
         routineAlerts = new AlertQueue(1000);
+        completedAlerts = new AlertQueue(2000);
+    }
+
+    public AlertQueue getCompletedAlerts() {
+        return completedAlerts;
     }
 
     public void addPatient(Patient patient) {
@@ -85,6 +91,7 @@ public class Hospital {
             Alert done = nurses[i].finishIfReady(time);
 
             if (done != null) {
+                completedAlerts.add(done);
                 System.out.println("Resolved by " + nurses[i].getId() + ": " + done);
             }
 

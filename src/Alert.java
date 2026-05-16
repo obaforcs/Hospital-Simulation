@@ -36,4 +36,16 @@ public class Alert {
                 + ", time=" + raisedTime
                 + ", data=" + observation.data();
     }
+
+    public boolean isResolved() {
+        return resolvedTime >= 0;
+    }
+
+    public int timeToResolve() {
+        if (!isResolved()) {
+            return -1;
+        }
+
+        return resolvedTime - raisedTime;
+    }
 }
