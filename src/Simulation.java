@@ -6,11 +6,17 @@ public class Simulation {
     private Hospital hospital;
     private int patientCount;
     private int simulationMinutes;
+    private int nurseCount;
+    private int urgentResolveTime;
+    private int routineResolveTime;
 
     public Simulation() {
         hospital = null;
         patientCount = 10;
         simulationMinutes = 60;
+        nurseCount = 3;
+        urgentResolveTime = 8;
+        routineResolveTime = 20;
     }
 
     public static int randomInt(int max) {
@@ -30,10 +36,14 @@ public class Simulation {
     }
 
     public void setup() {
-        hospital = new Hospital(patientCount);
+        hospital = new Hospital(patientCount, nurseCount);
 
         for (int i = 0; i < patientCount; i++) {
             hospital.addPatient(Patient.create());
+        }
+
+        for (int i = 0; i < nurseCount; i++) {
+            hospital.addNurse(new Nurse("Nurse " + (i + 1), urgentResolveTime, routineResolveTime));
         }
 
         System.out.println("Hospital setup complete.");
@@ -43,9 +53,12 @@ public class Simulation {
     public void run() {
         for (int time = 0; time < simulationMinutes; time++) {
             hospital.updateAlerts(time);
+            hospital.updateNurses(time);
 
             if (time % 10 == 0) {
-                System.out.println("Simulation time: " + time);
+                System.out.println("Simulation time: " + time
+                        + " urgentQueue=" + hospital.urgentQueueCount()
+                        + " routineQueue=" + hospital.routineQueueCount());
             }
         }
     }

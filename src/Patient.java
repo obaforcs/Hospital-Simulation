@@ -45,12 +45,13 @@ public class Patient {
         }
     }
 
-    public void generateAlerts(int time) {
+    public void generateAlerts(int time, Hospital hospital) {
         for (int i = 0; i < deviceCount; i++) {
             Observation observation = devices[i].getObservation(time, this);
 
             if (observation.dangerous()) {
                 Alert alert = new Alert(observation, time, observation.severity());
+                hospital.storeAlert(alert);
                 System.out.println(alert);
             }
         }
